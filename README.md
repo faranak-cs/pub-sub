@@ -1,2 +1,2 @@
-# pub-sub
-Simple Java pub-sub App
+# Pub-Sub App
+A simple pub-sub application in Spring 

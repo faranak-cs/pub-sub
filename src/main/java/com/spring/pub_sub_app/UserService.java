@@ -20,27 +20,17 @@ public class UserService {
         this.objectMapper = objectMapper;
     }
 
-    public User singleUser(){
-        return singleUserAsync().join();
-    }
+    public User singleUser() {
 
-    private CompletableFuture<User> singleUserAsync(){
-        var request = HttpRequest
-                .newBuilder(URI.create("https://random-data-api.com/api/v2/users"))
-                .build();
-
-        return HttpClient.newHttpClient()
-                .sendAsync(request, HttpResponse.BodyHandlers.ofString())
-                .thenApply(this::convertResponseBodyToUser);
-    }
-
-    private User convertResponseBodyToUser(HttpResponse<String> response) {
         try {
-            return objectMapper.readValue(response.body(), User.class);
-        } catch (JsonProcessingException e) {
+
+            User user = new User("1", "Faran");
+
+            return user;
+
+        } catch (Exception e) {
             throw new RuntimeException(e);
         }
+
     }
-
-
 }

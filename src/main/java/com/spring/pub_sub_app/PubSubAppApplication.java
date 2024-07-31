@@ -24,7 +24,7 @@ public class PubSubAppApplication {
 	@Autowired
 	private UserService userService;
 
-	@Scheduled(initialDelay = 1_000, fixedDelay = 1_000)
+	@Scheduled(initialDelay = 2_000, fixedDelay = 1_000)
 	void sourceUserToPulsar(){
 		var msgId = userTemplate.send("user-topic", userService.singleUser(), Schema.JSON(User.class));
 
@@ -36,7 +36,6 @@ public class PubSubAppApplication {
 		System.out.println("### CONSUME: " + user);
 	}
 
-	public record User(String uid, String username) {
-	}
+	public record User(String uid, String username) {}
 
 }

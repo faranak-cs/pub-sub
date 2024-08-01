@@ -18,24 +18,43 @@ public class PubSubAppApplication {
 		SpringApplication.run(PubSubAppApplication.class, args);
 	}
 
-	@Autowired
-	private PulsarTemplate<User> userTemplate;
+	@Autowired private PulsarTemplate<User> userTemplate;
+	@Autowired private PulsarTemplate<String> stringTemplate;
+	@Autowired private UserService userService;
 
-	@Autowired
-	private UserService userService;
+	// PRODUCER FOR TOPIC "SSH_LOGS"
+	@Scheduled(initialDelay = 1_000, fixedDelay = 1_000)
+	void sourceStringToPulsar(){
+		var msgId = stringTemplate.send("persistent://test/fakhan/test_logs", "Wrong password...");
+		System.out.println("@@@ PRODUCE: " + msgId);
+	}
 
-	@Scheduled(initialDelay = 2_000, fixedDelay = 1_000)
+	// CONSUMER FOR TOPIC "SSH_LOGS"
+	@PulsarListener(subscriptionName = "PubSubAppApplication", topics = "persistent://test/fakhan/test_logs")
+	void logStringFromPulsar(String log){
+		System.out.println("@@@ CONSUME: " + log);
+	}
+
+
+	// PRODUCER FOR TOPIC "USER-TOPIC"
+	@Scheduled(initialDelay = 10_000, fixedDelay = 1_000)
 	void sourceUserToPulsar(){
-		var msgId = userTemplate.send("user-topic", userService.singleUser(), Schema.JSON(User.class));
 
+		// org.apache.pulsar.client.api.MessageId
+		// send(String topic, T message, org.apache.pulsar.client.api.Schema<T> schema)
+		// returns the id assigned by the broker to the published message
+
+		var msgId = userTemplate.send("persistent://test/fakhan/user-topic", userService.singleUser(), Schema.JSON(User.class));
 		System.out.println("### PRODUCE: " + msgId);
 	}
 
-	@PulsarListener(topics = "user-topic", schemaType = SchemaType.JSON)
+	// CONSUMER FOR TOPIC "USER-TOPIC"
+	@PulsarListener(subscriptionName = "PubSubAppApplication", topics = "persistent://test/fakhan/user-topic", schemaType = SchemaType.JSON)
 	void logUserFromPulsar(User user){
 		System.out.println("### CONSUME: " + user);
 	}
 
+	// USER RECORD
 	public record User(String uid, String username) {}
 
 }

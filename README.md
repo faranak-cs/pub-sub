@@ -7,6 +7,9 @@ Use the following command to create the project from CLI:
 ```
 spring init -d=pulsar,lombok --build=maven -a=pub-sub-app -g=com.spring -n=pub-sub-app --package-name=com.spring.pub-sub-app ./ 
 ```
+## Diagram
+![pub-sub-app](https://github.com/user-attachments/assets/f04e0751-37a9-4067-8e8e-5633fff8e3c2)
+
 ## Version
 | Library      | Version |
 | ----------- | ----------- |

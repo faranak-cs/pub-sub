@@ -25,12 +25,12 @@ public class PubSubAppApplication {
 	// PRODUCER FOR TOPIC "SSH_LOGS"
 	@Scheduled(initialDelay = 1_000, fixedDelay = 1_000)
 	void sourceStringToPulsar(){
-		var msgId = stringTemplate.send("persistent://test/fakhan/test_logs", "Wrong password...");
+		var msgId = stringTemplate.send("persistent://public/default/ssh_logs", "Wrong password...");
 		System.out.println("@@@ PRODUCE: " + msgId);
 	}
 
 	// CONSUMER FOR TOPIC "SSH_LOGS"
-	@PulsarListener(subscriptionName = "PubSubAppApplication", topics = "persistent://test/fakhan/test_logs")
+	@PulsarListener(subscriptionName = "PubSubAppApplication", topics = "persistent://public/default/ssh_logs")
 	void logStringFromPulsar(String log){
 		System.out.println("@@@ CONSUME: " + log);
 	}

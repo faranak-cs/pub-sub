@@ -5,7 +5,7 @@ A simple pub-sub application in Spring using Apache Pulsar
 Use the following command to create the project from CLI:
 
 ```
-spring init -d=pulsar,lombok --build=maven -a=pub-sub-app -g=com.spring -n=pub-sub-app --package-name=com.spring.pub-sub-app ./ 
+spring init -d=web,pulsar,lombok --build=maven -a=pub-sub-app -g=com.spring -n=pub-sub-app --package-name=com.spring.pub-sub-app ./ 
 ```
 ## Output
 <img width="731" alt="Output" src="https://github.com/user-attachments/assets/0c18cf99-98c0-4591-95a3-24bacc1232ff">

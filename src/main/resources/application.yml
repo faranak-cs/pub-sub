@@ -1,0 +1,23 @@
+spring:
+  config:
+    activate:
+      on-profile: local
+pulsar:
+  service-url: pulsar://localhost:6650
+  user-topic: persistent://public/default/user
+  msg-topic: persistent://public/default/message
+server:
+  port: 8081
+
+---
+spring:
+  config:
+    activate:
+      on-profile: test
+pulsar:
+  service-url: ${PULSAR_TEST_SERVICE_URL}
+  token: ${PULSAR_TOKEN}
+  user-topic: persistent://test/fakhan/users
+  msg-topic: persistent://test/fakhan/messages
+server:
+  port: 8082

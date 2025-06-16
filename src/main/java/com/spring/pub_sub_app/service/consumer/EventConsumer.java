@@ -16,13 +16,13 @@ public class EventConsumer {
     @Autowired
     private ObjectMapper objectMapper;
 
-    @PulsarListener(subscriptionName = "PubSubAppApplication", topics = "persistent://test/fakhan/messages")
-    void consumeMessages(String message){
-        log.info("@@@ CONSUMED: {}" , message);
+    @PulsarListener(subscriptionName = "PubSubAppApplication", topics = "${pulsar.msg-topic}")
+    void consumeMessages(String message) {
+        log.info("@@@ CONSUMED: {}", message);
     }
 
-    @PulsarListener(subscriptionName = "PubSubAppApplication", topics = "persistent://test/fakhan/users", schemaType = SchemaType.JSON)
+    @PulsarListener(subscriptionName = "PubSubAppApplication", topics = "${pulsar.user-topic}", schemaType = SchemaType.JSON)
     void consumeUsers(User user) throws JsonProcessingException {
-        log.info("### CONSUME: {}" , objectMapper.writeValueAsString(user));
+        log.info("### CONSUME: {}", objectMapper.writeValueAsString(user));
     }
 }

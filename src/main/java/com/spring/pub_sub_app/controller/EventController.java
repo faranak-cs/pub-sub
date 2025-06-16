@@ -12,18 +12,18 @@ public class EventController {
     private EventProducer producer;
 
     @GetMapping("/hello")
-    public String hello(){
+    public String hello() {
         return "Hello, Hello!";
     }
 
     @GetMapping("/produce/message/{message}")
-    public String sendMessage(@PathVariable String message){
+    public String sendMessage(@PathVariable String message) {
         producer.producePlainMessage(message);
         return "Message Produced!";
     }
 
     @PostMapping("/produce/user")
-    public String sendUser(@RequestBody User user){
+    public String sendUser(@RequestBody User user) {
         producer.produceUser(user);
         return "User Produced!";
     }
